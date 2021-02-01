@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Http\Controllers\Backend\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class LoginController extends Controller
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
+    use AuthenticatesUsers;
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+
+    protected $redirectTo = '/admin/index';
+//    public function redirectTo()
+//    {
+//        if (Auth::check()) {
+//            if (User::where('role_id', '<=',2)) {
+//                return '/admin/index';
+//            } else {
+//                return redirect(route('admin.show_login_form'));
+//            }
+//        } else {
+//            return redirect(route('frontend.show_login_form'));
+//        }
+//    }
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+
+    public function showLoginForm()
+    {
+        return view('backend.auth.login');
+    }
+
+    public function username()
+    {
+        return 'username';
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->status == 0  || $user->role_id <= 2) {
+            Auth::logout();
+        }
+    }
+
+}
