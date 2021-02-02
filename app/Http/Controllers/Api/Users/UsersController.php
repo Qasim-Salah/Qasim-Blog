@@ -46,7 +46,7 @@ class UsersController extends Controller
     public function user_information()
     {
         $user = \auth()->user();
-        return new UserResource($user);
+        return $this->returnData('user_information', new UserResource($user));
     }
 
     public function update_user_information(Request $request)
@@ -126,14 +126,14 @@ class UsersController extends Controller
     {
         $user = Auth::user();
         $posts = $user->posts;
-        return UsersPostsResource::collection($posts);
+        return $this->returnData('my_posts', UsersPostsResource::collection($posts));
     }
 
     public function create_post()
     {
         $categories = Category::get();
 
-        return UsersCategoriesResource::collection($categories);
+        return $this->returnData( 'create_post',UsersCategoriesResource::collection($categories));
     }
 
     public function store_post(Request $request)
@@ -321,7 +321,7 @@ class UsersController extends Controller
         $comments = $comments->withoutGlobalScope(GlobalScope::class)->get();
 
 
-        return UsersPostCommentsResource::collection($comments);
+        return $this->returnData('all_comment',UsersPostCommentsResource::collection($comments));
     }
 
     public function edit_comment($id)
@@ -333,7 +333,7 @@ class UsersController extends Controller
             })->withoutGlobalScope(GlobalScope::class)->first();
 
             if ($comment) {
-                return new UsersPostCommentsResource($comment);
+                return $this->returnData('edit_comment', new UsersPostCommentsResource($comment));
             }
         } catch (\Exception $ex) {
             return $this->returnError('E001', 'Something was wrong');

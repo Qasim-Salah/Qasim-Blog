@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Users\UserResource;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\GeneralTrait;
@@ -43,7 +44,7 @@ class AuthController extends Controller
 
             $user = User::create($data);
 
-            return $this->returnData('user', $user);
+            return $this->returnData('user', new UserResource($user));
         } catch (\Exception $ex) {
             return $this->returnError('E001', 'Unauthorized');
 
@@ -63,11 +64,15 @@ class AuthController extends Controller
             }
             //login
 
-            $user = User::where('username', $request->username)
-                ->orwhere('password', $request->password)->first();
+            $credentials = $request->only(['username', 'password']);
 
+            $user = Auth::attempt($credentials);
+            if (!$user)
+                return $this->returnError('E001', 'Unauthorized');
+            $user = Auth::user();
             $token = $user->createToken('access_Token')->accessToken;
             return $this->returnData('token', $token);
+
         } catch (\Exception $ex) {
             return $this->returnError($ex->getCode(), $ex->getMessage());
         }

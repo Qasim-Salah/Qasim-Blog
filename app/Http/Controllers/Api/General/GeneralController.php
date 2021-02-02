@@ -30,7 +30,7 @@ class GeneralController extends Controller
             ->post()->orderBy('id', 'desc')->paginate(5);
 
         if ($posts->count() > 0) {
-            return PostsResource::collection($posts);
+            return $this->returnData('get_posts',PostsResource::collection($posts));
         } else {
             return $this->returnError(201, 'No posts found');
         }
@@ -46,7 +46,7 @@ class GeneralController extends Controller
         $posts = $posts->post()->paginate(PAGINATION_COUNT);
 
         if ($posts->count() > 0) {
-            return PostsResource::collection($posts);
+            return $this->returnData('search', PostsResource::collection($posts));
         } else {
             return $this->returnError('E001', 'No posts found');
 
@@ -63,7 +63,7 @@ class GeneralController extends Controller
                     ->where('category_id', $category)
                     ->post();
 
-                return PostsResource::collection($posts);
+                return $this->returnData('category', PostsResource::collection($posts));
             }
         } catch (\Exception $ex) {
 
@@ -84,7 +84,7 @@ class GeneralController extends Controller
             ->get();
 
         if ($posts->count() > 0) {
-            return PostsResource::collection($posts);
+            return $this->returnData('archive', PostsResource::collection($posts));
         } else {
             return $this->returnError('E001', 'Something was wrong');
         }
@@ -102,7 +102,7 @@ class GeneralController extends Controller
                 ->get();
 
             if ($posts->count() > 0) {
-                return PostsResource::collection($posts);
+                return $this->returnData('author', PostsResource::collection($posts));
             } else {
                 return $this->returnError('E001', 'Something was wrong');
             }
@@ -118,7 +118,7 @@ class GeneralController extends Controller
             $post = $post->where('slug', $slug)->post()->first();
 
             if ($post)
-                return new PostResource($post);
+                return $this->returnData('show_post', new PostResource($post));
 
         } catch (\Exception $ex) {
 

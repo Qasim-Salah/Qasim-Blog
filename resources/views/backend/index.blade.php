@@ -7,7 +7,7 @@
     </div>
 
     <!-- Content Row -->
-{{--    <livewire:backend.statistics />--}}
+    <livewire:backend.statistics />
 
     <!-- Content Row -->
 

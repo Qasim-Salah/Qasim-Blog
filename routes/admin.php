@@ -13,7 +13,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend', 'as' => 'admin.'], 
     });
 ###########end-authentication########
 
-    Route::group(['middleware' => 'roles', 'auth'], function () {
+    Route::group(['middleware' => 'auth', 'roles'], function () {
 
         Route::any('/notifications/get', 'NotificationsController@getNotifications');
         Route::any('/notifications/read', 'NotificationsController@markAsRead');

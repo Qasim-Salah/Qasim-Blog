@@ -2684,11 +2684,11 @@
             ],
             "authors": [
                 {
-                    "name": "Sami Mansour",
+                    "name": "Qasim Salah",
                     "email": "mindscms@gmail.com"
                 }
             ],
-            "description": "This package provides a flexible way to add Role-based Permissions to Laravel Customized by Sami Mansour",
+            "description": "This package provides a flexible way to add Role-based Permissions to Laravel Customized by Qasim Salah",
             "keywords": [
                 "acl",
                 "auth",

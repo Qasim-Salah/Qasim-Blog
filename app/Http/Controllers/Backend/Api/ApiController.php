@@ -7,7 +7,6 @@ use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use App\Scopes\GlobalScope;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ApiController extends Controller

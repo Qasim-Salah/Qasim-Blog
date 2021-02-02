@@ -31,18 +31,6 @@ class LoginController extends Controller
      */
 
     protected $redirectTo = '/admin/index';
-//    public function redirectTo()
-//    {
-//        if (Auth::check()) {
-//            if (User::where('role_id', '<=',2)) {
-//                return '/admin/index';
-//            } else {
-//                return redirect(route('admin.show_login_form'));
-//            }
-//        } else {
-//            return redirect(route('frontend.show_login_form'));
-//        }
-//    }
 
     /**
      * Create a new controller instance.
@@ -66,7 +54,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if ($user->status == 0  || $user->role_id <= 2) {
+        if ($user->status == 0  || $user->role_id > 2) {
             Auth::logout();
         }
     }

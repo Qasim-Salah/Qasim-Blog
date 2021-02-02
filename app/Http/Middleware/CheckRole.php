@@ -19,13 +19,19 @@ class CheckRole
      */
     public function handle($request, Closure $next)
     {
-        $role = Auth::user()->role_id;
-        if ($role <= 2) {
-            return $next($request);
-        } else {
-            return redirect(route('frontend.show_login_form'));
-        }
 
+
+        if (Auth::check()) {
+            $role = Auth::user()->role_id;
+            if ($role <= 2) {
+                return $next($request);
+            } else {
+                return redirect(route('user.dashboard'));
+            }
+        } else {
+            return redirect(route('user.dashboard'));
+
+        }
     }
 }
 
