@@ -65,13 +65,14 @@ class AuthController extends Controller
             //login
 
             $credentials = $request->only(['username', 'password']);
-
             $user = Auth::attempt($credentials);
             if (!$user)
                 return $this->returnError('E001', 'Unauthorized');
-            $user = Auth::user();
-            $token = $user->createToken('access_Token')->accessToken;
-            return $this->returnData('token', $token);
+
+            $token = Auth::user();
+            $token->token = $token->createToken('access_Token')->accessToken;
+
+            return $this->returnData('user', $token);
 
         } catch (\Exception $ex) {
             return $this->returnError($ex->getCode(), $ex->getMessage());
